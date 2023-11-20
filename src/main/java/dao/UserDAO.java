@@ -11,9 +11,13 @@ import java.util.List;
 import model.User;
 
 public class UserDAO {
+	
+	// DataBase credentials
 	private String jdbcURL = "jdbc:mysql://localhost:3306/spring?useSSL=false";
 	private String jdbcUsername = "root";
 	private String jdbcPassword = "4562";
+	
+	// CRUD Operation static methods in the from of Querys
 
 	private static final String INSERT_USERS_SQL = "INSERT INTO users" + "  (name, email, country) VALUES "
 			+ " (?, ?, ?);";
@@ -26,6 +30,7 @@ public class UserDAO {
 	public UserDAO() {
 	}
 
+	// DateBase Connection using mySql driver class
 	protected Connection getConnection() {
 		Connection connection = null;
 		try {
@@ -41,6 +46,8 @@ public class UserDAO {
 		return connection;
 	}
 
+	
+	// for adding operation
 	public void insertUser(User user) throws SQLException {
 		System.out.println(INSERT_USERS_SQL);
 		// try-with-resource statement will auto close the connection.
@@ -55,7 +62,9 @@ public class UserDAO {
 			printSQLException(e);
 		}
 	}
+	
 
+	// get emp by id
 	public User selectUser(int id) {
 		User user = null;
 		// Step 1: Establishing a Connection
@@ -80,6 +89,7 @@ public class UserDAO {
 		return user;
 	}
 
+	// get all the emp
 	public List<User> selectAllUsers() {
 
 		// using try-with-resources to avoid closing resources (boiler plate code)
@@ -106,7 +116,10 @@ public class UserDAO {
 		}
 		return users;
 	}
+	
+	
 
+	// delete emp by id
 	public boolean deleteUser(int id) throws SQLException {
 		boolean rowDeleted;
 		try (Connection connection = getConnection();
@@ -117,6 +130,8 @@ public class UserDAO {
 		return rowDeleted;
 	}
 
+	
+	// update emp 
 	public boolean updateUser(User user) throws SQLException {
 		boolean rowUpdated;
 		try (Connection connection = getConnection();
@@ -131,6 +146,7 @@ public class UserDAO {
 		return rowUpdated;
 	}
 
+	// for any sql exception
 	private void printSQLException(SQLException ex) {
 		for (Throwable e : ex) {
 			if (e instanceof SQLException) {
